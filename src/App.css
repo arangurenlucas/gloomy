@@ -1,11 +1,5 @@
 .App {
   display: flex;
   height: 100vh;
-  justify-content: center;
-  align-items: center;
-  background-color: #0f202e;
-}
-
-.App p {
-  color: white;
+  background-color: #fcf7ff;
 }

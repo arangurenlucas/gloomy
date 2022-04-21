@@ -1,0 +1,23 @@
+.container {
+  width: 13vw;
+  height: 100vh;
+  left: 0px;
+  top: 0px;
+  margin-right: 20px;
+
+  background: #c95b49;
+  box-shadow: 8px 0px 12px rgba(0, 0, 0, 0.4);
+  border-radius: 0px 12px 12px 0px;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.title p {
+  font-size: 1.5rem;
+  color: #fff;
+
+  text-align: center;
+  text-shadow: 3px 2px 0px rgba(32, 54, 67, 0.3);
+  letter-spacing: 0.25rem;
+}

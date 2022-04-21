@@ -1,11 +1,21 @@
-import React from "react";
-import "./App.css";
+import React from 'react';
+import './App.css';
+import MainNavigation from '../src/navigation/MainNavigation';
+import MyContext from '../src/MyContext';
+import Sidebar from './components/Sidebar/Sidebar';
 
 function App() {
   return (
-    <div className="App">
-      <p>gloomy</p>
+    <MyContext.Provider
+      value={{
+        name: 'Max'
+      }}
+    ><div className='App'>
+
+      <Sidebar />
+      <MainNavigation />
     </div>
+    </MyContext.Provider>
   );
 }
 
