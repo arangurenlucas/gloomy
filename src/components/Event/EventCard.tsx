@@ -1,6 +1,7 @@
 import type { eventType } from '../../interfaces/eventType';
 import { FcCalendar } from 'react-icons/fc';
 import './event.css';
+
 function EventCard(props: eventType) {
   return (
     <div className="eventCardContainer">
