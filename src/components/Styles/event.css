@@ -1,0 +1,17 @@
+.eventCardContainer {
+  background-color: rgb(237, 237, 237);
+  border: rgb(168, 168, 168) 1px solid;
+  border-radius: 10px;
+  transition: box-shadow 0.2s ease;
+  width: 20vw;
+  cursor: pointer;
+  max-height: 590px;
+}
+
+.eventCardContainer:hover {
+  box-shadow: 0px 3px 5px rgb(0, 0, 0, 0.2);
+}
+
+.eventCardContainer > img {
+  width: inherit;
+}

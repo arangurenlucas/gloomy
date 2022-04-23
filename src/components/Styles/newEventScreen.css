@@ -1,0 +1,12 @@
+.newEventScreen{
+    position: absolute;
+    top: 10%;
+    left: 15%;
+    margin-top: -15px;
+    margin-left: -30px;
+    width: 70%;
+    height: 80%;
+
+    
+    background-color: #f2f2f2;
+}
