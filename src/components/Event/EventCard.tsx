@@ -1,7 +1,7 @@
 import type { eventType } from '../../interfaces/eventType';
 import EventHeader from './EventHeader';
 import EventInfo from './EventInfo';
-import '../Styles/event.css'
+import './event.css'
 function EventCard(props: eventType) {
   return (
     <div className="eventCardContainer">

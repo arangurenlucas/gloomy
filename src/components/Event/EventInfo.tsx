@@ -1,6 +1,6 @@
 import type { eventInfoType } from '../../interfaces/eventType';
 import { FcCalendar } from 'react-icons/fc';
-import '../Styles/eventInfo.css';
+import './eventInfo.css';
 
 function EventInfo(props: eventInfoType) {
   return (

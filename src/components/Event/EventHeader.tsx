@@ -1,5 +1,5 @@
 import type { eventHeaderType } from '../../interfaces/eventType';
-import '../Styles/eventHeader.css';
+import './eventHeader.css';
 function EventHeader(props: eventHeaderType) {
   return (
     <div className="eventHeader">

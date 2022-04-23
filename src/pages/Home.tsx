@@ -2,7 +2,7 @@ import { useState } from 'react';
 import EventCard from '../components/Event/EventCard';
 import NewEvent from '../components/Event/NewEvent';
 import type { eventType } from '../interfaces/eventType';
-import '../components/Styles/homepage.css';
+import './homepage.css';
 
 const eventsList: eventType[] = [
   {
