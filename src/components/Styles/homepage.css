@@ -1,0 +1,14 @@
+.homeContainer {
+  display: flex;
+  padding: 25px 10px 10px 10px;
+  background-color: #fcf7ff;
+  overflow: auto;
+}
+
+.center {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100vw;
+  gap: 20px;
+}

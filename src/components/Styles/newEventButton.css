@@ -1,0 +1,16 @@
+.newEventButton {
+  display: flex;
+  border: 2px dashed #d6d6d6;
+  box-sizing: border-box;
+  border-radius: 15px;
+  width: 20vw;
+  max-height: 590px;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+}
+
+.newEventIcon {
+    font-size: 5rem;
+    color: #d6d6d6;
+  }
