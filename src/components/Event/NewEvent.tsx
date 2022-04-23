@@ -1,6 +1,6 @@
 import { AiOutlinePlus } from 'react-icons/ai';
 import { useState } from 'react';
-import '../Styles/newEventButton.css'
+import './newEventButton.css'
 import CreateEvent from './CreateEvent';
 
 function NewEvent() {

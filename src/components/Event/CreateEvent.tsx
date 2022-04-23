@@ -1,4 +1,4 @@
-import '../Styles/newEventScreen.css';
+import './newEventScreen.css';
 // import type { eventType } from "../../interfaces/eventType";
 
 export default function CreateEvent() {
