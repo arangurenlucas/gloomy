@@ -11,7 +11,7 @@ function NewEvent() {
     <button className="newEventButton" onClick={() => setNewEventClickedState(!newEventClicked) }>
       <AiOutlinePlus className="newEventIcon" />
     </button>
-    {newEventClicked ? <CreateEvent /> : null }
+    {newEventClicked ? <CreateEvent newEventClicked = { newEventClicked } setNewEventClickedState = { setNewEventClickedState}  /> : null } 
     </div>
   );
 }
