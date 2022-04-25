@@ -70,7 +70,7 @@ export default function CreateEvent(props: Eventprops) {
             className="TitleInput"
             type="text"
             maxLength={40}
-            value={newEvent.eventName.trim()}
+            value={newEvent.eventName}
             onChange={(e) => setNewEvent({ ...newEvent, eventName: e.target.value })}
           />
         </div>
@@ -101,7 +101,7 @@ export default function CreateEvent(props: Eventprops) {
         <div className="EventFileInput">
           <p>Elegí la imagen del evento:</p>
           <div className="FileInput">
-            <input
+            {/* <input
               type="file"
               id="upload"
               hidden
@@ -112,7 +112,11 @@ export default function CreateEvent(props: Eventprops) {
             />
             <label htmlFor="upload">
               <MdOutlineCloudUpload /> Archivo
-            </label>
+            </label> */}
+            <input className='ClaseAEliminar' type="text" value={newEvent.imageUrl}
+              onChange={(e) => {
+                setNewEvent({ ...newEvent, imageUrl: e.target.value });
+              }} />
             <p>{newEvent.imageUrl}</p>
           </div>
         </div>
@@ -122,7 +126,7 @@ export default function CreateEvent(props: Eventprops) {
           <textarea
             cols={1}
             rows={7}
-            value={newEvent.description.trim()}
+            value={newEvent.description}
             onChange={(e) => {
               setNewEvent({ ...newEvent, description: e.target.value });
             }}
