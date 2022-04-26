@@ -1,20 +1,15 @@
-import type { eventType } from '../../interfaces/eventType';
-import EventHeader from './EventHeader';
+import type { Event } from '../../interfaces/Event';
 import EventInfo from './EventInfo';
-import './event.css'
-function EventCard(props: eventType) {
+import './event.css';
+function EventCard(props: Event) {
   return (
     <div className="eventCardContainer">
-      <EventHeader
-        profilePhoto={props.profilePhoto}
-        organizer={props.organizer}
-      />
-      <img src={props.img} />
+      <img src={props.imageUrl} />
       <EventInfo
-        title={props.title}
-        category={props.category}
+        eventName={props.eventName}
+        eventCategory={props.eventCategory}
         description={props.description}
-        date={props.date}
+        eventDate={props.eventDate}
       />
     </div>
   );

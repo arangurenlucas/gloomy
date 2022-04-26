@@ -1,9 +1,9 @@
 .navBarMenuContainer {
+  position: absolute;
+
   width: 8vw;
   height: 100%;
-  left: 0px;
-  top: 0px;
-  margin-right: 20px;
+  /* margin-right: 20px; */
 
   background: #c95b49;
   box-shadow: 8px 0px 12px rgba(0, 0, 0, 0.4);
