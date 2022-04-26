@@ -1,114 +1,21 @@
-.homeContainer {
-  padding: 25px 10px 10px 10px;
-  background-color: #fcf7ff;
-  overflow: auto;
-}
-
-.center {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 100%;
-  gap: 20px;
-}
-
 .eventCardContainer {
   background-color: rgb(237, 237, 237);
+  box-shadow: 2px 3px 12px rgba(0, 0, 0, 0.4);
   border: rgb(168, 168, 168) 1px solid;
   border-radius: 10px;
   transition: box-shadow 0.2s ease;
-  width: 20vw;
+  width: 235px;
   cursor: pointer;
-  max-height: 750px;
+  height: 350px;
 }
 
-.newEventButton {
-  display: flex;
-  border: 2px dashed #d6d6d6;
-  box-sizing: border-box;
-  border-radius: 15px;
-  width: 20vw;
-  max-height: 750px;
-  cursor: pointer;
-  justify-content: center;
-  align-items: center;
-}
-
-.newEventIcon {
-  font-size: 5rem;
-  color: #d6d6d6;
-}
 .eventCardContainer:hover {
   box-shadow: 0px 3px 5px rgb(0, 0, 0, 0.2);
 }
 
-.eventHeader {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin: 0px 10px 0px 10px;
-}
-
-.profileInfo {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.profilePhoto {
-  height: 50px;
-  width: 50px;
-  border-radius: 50%;
-  margin-right: 5px;
-}
-
-.eventInfo {
-  display: flex;
-  flex-direction: column;
-  margin: 0px 10px 0px 10px;
-}
-
-.eventDateIcon {
-  font-size: 2rem;
-}
-
-.eventDate {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin-right: 10px;
-}
-
-.eventCardContainer > img {
+.eventCardContainer img  {
   width: inherit;
-}
-
-.eventStatus {
-  border: 1px solid green;
-  background-color: green;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-}
-
-.eventProperties {
-  height: 100px;
-  box-sizing: border-box;
-}
-
-.eventProperties p {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
-  word-break: break-all;
-}
-
-.eventTitle h3{
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  border-radius:9px 9px 0px 0px;
+  height: 55%;
+  vertical-align: middle;
 }
