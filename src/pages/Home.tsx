@@ -18,6 +18,8 @@ function Home() {
             eventCategory={event.eventCategory}
             description={event.description}
             eventDate={event.eventDate}
+            expired={event.expired}
+            eventHost={event.eventHost}
           />
         ))}
       </div>
