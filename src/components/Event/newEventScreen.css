@@ -1,12 +1,162 @@
-.newEventScreen{
-    position: absolute;
-    top: 10%;
-    left: 15%;
-    margin-top: -15px;
-    margin-left: -30px;
-    width: 70%;
-    height: 80%;
+.NewEventScreenModal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0px;
+  left: 0px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
 
+.NewEventScreenInputs {
+  display: flex;
+  flex-direction: column;
+  width: 30vw;
+  height: 80vh;
+  padding-top: 10px;
+  gap: 10px;
+  background-color: white;
+  border-radius: 15px;
+}
+
+p {
+  font-size: 14px;
+}
+
+.EventTitleInput {
+  display: flex;
+  flex-direction: column;
+  padding-left: 15px;
+}
+
+.TitleInput {
+  height: 30px;
+  width: 60%;
+  border: 0;
+  outline: none;
+  background: rgba(255, 255, 255, 0.71);
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+}
+
+
+.EventDateTimePicker {
+  display: flex;
+  flex-direction: column;
+  padding-left: 15px;
+  width: 70%;
+  font-size: 13px;
+  border-radius: 5px;
+}
+
+.EventCategoryInputs {
+  display: flex;
+  flex-direction: column;
+  padding-left: 15px;
+  gap: 5px;
+}
+
+.NewEventScreenInputs select {
+  height: 30px;
+  width: 40%;
+  cursor: pointer;
+  border: 0;
+  outline: none;
+  background: rgba(255, 255, 255, 0.71);
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+}
+
+.EventFileInput {
+  padding-left: 15px;
+}
+
+.EventFileInput label {
+  display: flex;
+  gap: 3px;
+  background-color: #c95b49;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  align-self: center;
+  justify-self: center;
+}
+
+.FileInput {
+  display: flex;
+  flex-direction: row;
+  height: 5vh;
+  gap: 5px;
+}
+
+.FileInput p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-left: 20px;
     
-    background-color: #f2f2f2;
+}
+
+.EventDescription {
+  display: flex;
+  flex-direction: column;
+}
+
+.EventDescription p {
+  padding-left: 10px;
+  align-self: flex-start;
+}
+
+.EventDescription textarea {
+  margin-left: 5px;
+  margin-right: 5px;
+  resize: none;
+}
+
+.Buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+}
+
+.Buttons button {
+  height: 4vh;
+  width: 8vw;
+  color: white;
+  background-color: #c95b49;
+  border-radius: 5px;
+  cursor: pointer;
+  outline: 0;
+  border: 0;
+  
+}
+
+.EventMessage {
+  display: flex;
+  flex-direction: row;
+}
+
+.CreateEventErrorMessage{
+  padding: 5px;
+  font-size: 12px;
+  color: red;
+}
+.CreateEventSuccessMessage{
+  padding-left: 5px;
+  font-size: 12px;
+  color: green;
+}
+
+.ClaseAEliminar{
+  width: 100%;
+  border: 0;
+  outline: none;
+  background: rgba(255, 255, 255, 0.71);
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
 }

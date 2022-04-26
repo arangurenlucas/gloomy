@@ -15,10 +15,11 @@ function App() {
       const data = await getEvents();
       setEvents(
         data.docs.map((doc) => {
-          const { eventName, description, eventHost, imageUrl, eventDate, expired } = doc.data();
+          const { eventName, description, eventCategory, eventHost, imageUrl, eventDate, expired } = doc.data();
           return {
             eventName,
             description,
+            eventCategory,
             eventHost,
             imageUrl,
             eventDate,

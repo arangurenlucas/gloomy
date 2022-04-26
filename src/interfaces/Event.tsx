@@ -1,11 +1,17 @@
-import { Timestamp } from 'firebase/firestore/lite';
+import { Timestamp } from 'firebase/firestore';
 
 export interface Event {
   eventName: string;
   description: string;
-  eventHost: string;
-  imageUrl: string;
-  eventDate: Timestamp;
+  eventCategory: string;
+  eventHost: string; 
+  imageUrl: string; 
+  eventDate: Timestamp; 
   expired: boolean;
-  id: string;
+  id?: string; 
 }
+
+
+
+
+
