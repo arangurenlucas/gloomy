@@ -9,9 +9,8 @@
 .center {
   display: grid;
   margin: 3vw 0vw 0vw 10vw;
-  /* flex-direction: row;
-  flex-wrap: wrap; */
-  grid-template-columns: 280px 280px 280px 280px;
+  grid-template-columns: 250px 250px 250px 250px;
   width: 100vw;
   gap: 20px;
+  height: 350px;
 }
