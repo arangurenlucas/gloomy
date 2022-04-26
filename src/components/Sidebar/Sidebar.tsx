@@ -3,30 +3,47 @@ import { Link } from 'react-router-dom';
 import './sidebar.css';
 import MyContext from '../../MyContext';
 import { FaHome, FaRegCalendarAlt, FaUser } from 'react-icons/fa';
+import { BiLogOut } from 'react-icons/bi';
+import { getAuth, signOut } from 'firebase/auth';
 
 const Sidebar = () => {
-  const { isLogged } = useContext(MyContext);
+  const { isLogged, setIsLogged } = useContext(MyContext);
+  const auth = getAuth();
+
   return (
     <>
       {isLogged ? (
         <div className="navBarMenuContainer">
-          <div className="title">
-            <p>gloomy</p>
+          <div>
+            <div className="title">
+              <p>gloomy</p>
+            </div>
+            <nav>
+              <Link className="link" to={'/'}>
+                <FaHome className="icon" />
+                Home
+              </Link>
+              <Link className="link" to={'/events'}>
+                <FaRegCalendarAlt className="icon" />
+                My Events
+              </Link>
+              <Link className="link" to={'/account'}>
+                <FaUser className="icon" />
+                Account
+              </Link>
+            </nav>
           </div>
-          <nav>
-            <Link className="link" to={'/'}>
-              <FaHome className="icon" />
-              Home
-            </Link>
-            <Link className="link" to={'/events'}>
-              <FaRegCalendarAlt className="icon" />
-              My Events
-            </Link>
-            <Link className="link" to={'/account'}>
-              <FaUser className="icon" />
-              Account
-            </Link>
-          </nav>
+          <button
+            className="signOutButton"
+            onClick={() => {
+              localStorage.removeItem('userId');
+              signOut(auth);
+              setIsLogged(false);
+              localStorage.removeItem('uid');
+            }}
+          >
+            <BiLogOut className="logOutIcon" />
+          </button>
         </div>
       ) : null}
     </>
