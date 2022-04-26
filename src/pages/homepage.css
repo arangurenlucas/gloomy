@@ -1,0 +1,17 @@
+.homeContainer {
+  display: flex;
+  padding: 25px 10px 10px 10px;
+  background-color: #fcf7ff;
+  overflow: auto;
+  margin-left: 9vw;
+}
+
+.center {
+  display: grid;
+  margin: 3vw 0vw 0vw 10vw;
+  /* flex-direction: row;
+  flex-wrap: wrap; */
+  grid-template-columns: 280px 280px 280px 280px;
+  width: 100vw;
+  gap: 20px;
+}

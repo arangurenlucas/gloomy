@@ -1,0 +1,17 @@
+.newEventButton {
+  position: absolute;
+  border: 2px dashed #d6d6d6;
+  box-sizing: border-box;
+  border-radius: 15px;
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+
+  bottom: 0.8vw;
+  right: 1.5vw;
+}
+
+.newEventIcon {
+    font-size: 5rem;
+    color: #d6d6d6;
+  }
