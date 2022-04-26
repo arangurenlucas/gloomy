@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore/lite";
+
 export interface eventType {
   profilePhoto: string;
   organizer: string;
@@ -5,7 +7,7 @@ export interface eventType {
   title: string;
   category: string;
   description: string;
-  date: string;
+  date: Timestamp;
 }
 export interface eventHeaderType {
   profilePhoto: string;
@@ -13,8 +15,8 @@ export interface eventHeaderType {
 }
 
 export interface eventInfoType {
-  title: string;
-  category: string;
+  eventName: string;
   description: string;
-  date: string;
+  eventCategory: string;
+  eventDate: Timestamp;
 }
