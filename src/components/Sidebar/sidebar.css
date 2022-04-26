@@ -1,4 +1,5 @@
 .navBarMenuContainer {
+  display: flex;
   width: 7vw;
   height: 100%;
   left: 0px;
@@ -9,8 +10,9 @@
   box-shadow: 8px 0px 12px rgba(0, 0, 0, 0.4);
   border-radius: 0px 12px 12px 0px;
 
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .title p {
@@ -48,4 +50,19 @@ nav {
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.signOutButton {
+  display: flex;
+  margin-bottom: 15px;
+  background-color: #96463a;
+  border: 0;
+  border-radius: 10px;
+  padding: 0.5rem 1rem;
+}
+
+.logOutIcon {
+  margin-right: 6px;
+  font-size: 1.5rem;
+  color: #fff;
 }
