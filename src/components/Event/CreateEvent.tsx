@@ -1,11 +1,12 @@
 import './newEventScreen.css';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { MdOutlineCloudUpload } from 'react-icons/md';
 import { Timestamp } from 'firebase/firestore';
 import type { Event } from '../../interfaces/Event';
 import DateTimePicker from 'react-datetime-picker';
-
-import { addEvent } from '../../Service/ServiceAPI';
+import { addEvent, uploadImage } from '../../Service/ServiceAPI';
+import { getDownloadURL } from 'firebase/storage';
+import MyContext from '../../MyContext';
 
 type Eventprops = {
   newEventClicked: boolean;
@@ -17,9 +18,14 @@ type MsgError = {
   message: string;
 };
 
+type eventType = ['Social', 'Sports', 'Cultural', 'Business', 'Other'];
+
 export default function CreateEvent(props: Eventprops) {
-  const eventype: string[] = ['', 'Social', 'Deportivo', 'Ocio', 'Empresarial', 'Otros'];
+  const eventype: eventType = ['Social', 'Sports', 'Cultural', 'Business', 'Other'];
+  const { setRefreshData } = useContext(MyContext);
   const [message, setMessage] = useState<MsgError>({ error: false, message: '' });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [imageToUpload, setImageToUpload] = useState<File | null>(null);
   const [newEvent, setNewEvent] = useState<Event>({
     eventName: '',
     description: '',
@@ -30,34 +36,43 @@ export default function CreateEvent(props: Eventprops) {
     expired: false
   });
 
-  const createEvent = async (event: Event) => {
+  const onCreateEventSubmit = () => {
+    setIsLoading(true);
+
     if (
-      event.eventName == '' &&
-      event.description == '' &&
-      event.eventCategory == '' &&
-      event.imageUrl == ''
+      newEvent.eventName == '' &&
+      newEvent.description == '' &&
+      newEvent.eventCategory == '' &&
+      newEvent.imageUrl == null
     ) {
-      setMessage({ error: true, message: 'Debe completar la informacion solicitada' });
-    } else if (event.eventName == '') {
-      setMessage({ error: true, message: 'Debe completar el nombre del evento' });
-    } else if (event.eventDate == undefined) {
-      setMessage({ error: true, message: 'El evento debe tener una fecha' });
-    } else if (event.eventCategory == '') {
-      setMessage({ error: true, message: 'El evento debe tener una categoria' });
-    } else if (event.imageUrl == '') {
-      setMessage({ error: true, message: 'El evento debe tener una imagen' });
-    } else if (event.description == '') {
-      setMessage({ error: true, message: 'El evento debe tener una descripcion' });
-    } else {
-      try {
-        await addEvent(event);
-        setMessage({ error: false, message: 'El evento se cargó correctamente' });
-        setTimeout(function () {
-          props.setNewEventClickedState(false);
-        }, 2000);
-      } catch (error) {
-        console.log('Error al agregar evento');
+      setMessage({ error: true, message: 'Debe completar la informacion solicitada' }); // Hay que implementar switch case u otro tipo de manejo de condiciones acá
+    } else if (newEvent.eventName == '') {
+      return setMessage({ error: true, message: 'Debe completar el nombre del evento' });
+    } else if (newEvent.eventDate == undefined) {
+      return setMessage({ error: true, message: 'El evento debe tener una fecha' });
+    } else if (newEvent.eventCategory == '') {
+      return setMessage({ error: true, message: 'El evento debe tener una categoria' });
+    } else if (!imageToUpload) {
+      return setMessage({ error: true, message: 'El evento debe tener una imagen' });
+    } else if (newEvent.description == '') {
+      return setMessage({ error: true, message: 'El evento debe tener una descripcion' });
+    }
+    const uid = localStorage.getItem('uid');
+    try {
+      if (imageToUpload && uid) {
+        uploadImage(uid, imageToUpload)
+          .then(async (snapshot) => {
+            const url = await getDownloadURL(snapshot.ref);
+            addEvent({ ...newEvent, imageUrl: url });
+            setRefreshData(true);
+            props.setNewEventClickedState(false);
+          })
+          .catch((err) => {
+            console.log(err.message);
+          });
       }
+    } catch (error) {
+      console.log('Error al agregar evento');
     }
   };
 
@@ -67,6 +82,7 @@ export default function CreateEvent(props: Eventprops) {
         <div className="EventTitleInput">
           <p>Nombre del Evento: </p>
           <input
+            disabled={isLoading}
             className="TitleInput"
             type="text"
             maxLength={40}
@@ -78,6 +94,7 @@ export default function CreateEvent(props: Eventprops) {
         <div className="EventDateTimePicker">
           <p>Fecha del evento:</p>
           <DateTimePicker
+            disabled={isLoading}
             value={new Date(newEvent.eventDate.seconds * 1000)}
             minDate={new Date()}
             disableClock={true}
@@ -89,6 +106,7 @@ export default function CreateEvent(props: Eventprops) {
         <div className="EventCategoryInputs">
           <p>Categoria:</p>
           <select
+            disabled={isLoading}
             value={newEvent.eventCategory}
             onChange={(e) => setNewEvent({ ...newEvent, eventCategory: e.target.value })}
           >
@@ -101,22 +119,24 @@ export default function CreateEvent(props: Eventprops) {
         <div className="EventFileInput">
           <p>Elegí la imagen del evento:</p>
           <div className="FileInput">
-            {/* <input
+            <input
+              disabled={isLoading}
               type="file"
               id="upload"
               hidden
               value={newEvent.imageUrl}
               onChange={(e) => {
-                setNewEvent({ ...newEvent, imageUrl: e.target.value });
+                // handleFileToUpload(e)
+                setImageToUpload(e.target.files ? e.target.files[0] : null);
               }}
             />
             <label htmlFor="upload">
               <MdOutlineCloudUpload /> Archivo
-            </label> */}
-            <input className='ClaseAEliminar' type="text" value={newEvent.imageUrl}
+            </label>
+            {/* <input className='ClaseAEliminar' type="text" value={newEvent.imageUrl} // Commented until url file upload is implemented
               onChange={(e) => {
                 setNewEvent({ ...newEvent, imageUrl: e.target.value });
-              }} />
+              }} /> */}
             <p>{newEvent.imageUrl}</p>
           </div>
         </div>
@@ -124,6 +144,7 @@ export default function CreateEvent(props: Eventprops) {
         <div className="EventDescription">
           <p>Descripcion del evento:</p>
           <textarea
+            disabled={isLoading}
             cols={1}
             rows={7}
             value={newEvent.description}
@@ -134,15 +155,18 @@ export default function CreateEvent(props: Eventprops) {
         </div>
 
         <div className="Buttons">
-          <button onClick={() => createEvent(newEvent)}> Guardar</button>
-          <button onClick={() => props.setNewEventClickedState(false)}>Cancelar</button>
+          <button disabled={isLoading} onClick={() => onCreateEventSubmit()}>
+            Guardar
+          </button>
+          <button disabled={isLoading} onClick={() => props.setNewEventClickedState(false)}>
+            Cancelar
+          </button>
         </div>
 
         <div className="EventMessage">
           {message.message ? (
             <p className={message.error ? 'CreateEventErrorMessage' : 'CreateEventSuccessMessage'}>
-              {' '}
-              {message.message}{' '}
+              {message.message}
             </p>
           ) : null}
         </div>
