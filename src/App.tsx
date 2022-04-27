@@ -7,12 +7,13 @@ import Sidebar from './components/Sidebar/Sidebar';
 import { getEvents } from './Service/ServiceAPI';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from './Service/config';
-import { Auth, getAuth, onAuthStateChanged } from 'firebase/auth';
+import { Auth, getAuth } from 'firebase/auth';
 
 initializeApp(firebaseConfig);
 
 function App(): JSX.Element {
   const [isLogged, setIsLogged] = useState<boolean>(false);
+  const [refreshData, setRefreshData] = useState<boolean>(false);
   const [events, setEvents] = useState<Event[]>([]);
   const [user, setUser] = useState<Auth>();
   const auth = getAuth();
@@ -22,7 +23,8 @@ function App(): JSX.Element {
       const data = await getEvents();
       setEvents(
         data.docs.map((doc) => {
-          const { eventName, description, eventCategory, eventHost, imageUrl, eventDate, expired } = doc.data();
+          const { eventName, description, eventCategory, eventHost, imageUrl, eventDate, expired } =
+            doc.data();
           return {
             eventName,
             description,
@@ -55,7 +57,11 @@ function App(): JSX.Element {
     return localStorage.getItem('uid');
   }
 
+  useEffect(() => {}, []);
+
   useEffect(() => {
+    setRefreshData(false);
+
     getUser()
       .then((uid) => {
         if (uid) {
@@ -71,14 +77,15 @@ function App(): JSX.Element {
     if (isLogged) {
       getEventList();
     }
-  }, [isLogged]);
+  }, [isLogged, refreshData]);
 
   return (
     <MyContext.Provider
       value={{
         isLogged,
         setIsLogged,
-        events
+        events,
+        setRefreshData
       }}
     >
       <div className="App">
