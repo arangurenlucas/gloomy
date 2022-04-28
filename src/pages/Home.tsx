@@ -13,13 +13,7 @@ function Home() {
         {events.map((event: Event) => (
           <EventCard
             key={event.id}
-            imageUrl={event.imageUrl}
-            eventName={event.eventName}
-            eventCategory={event.eventCategory}
-            description={event.description}
-            eventDate={event.eventDate}
-            expired={event.expired}
-            eventHost={event.eventHost}
+            event={event}
           />
         ))}
       </div>
