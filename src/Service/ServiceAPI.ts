@@ -1,9 +1,19 @@
 import type { Event } from '../interfaces/Event';
+import type { NewUser } from '../interfaces/User';
 import { getRandomString } from './utils';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from './config';
-import { ref, getStorage, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc } from 'firebase/firestore';
+import { ref, getStorage, uploadBytes } from 'firebase/storage';
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  addDoc,
+  deleteDoc,
+  doc,
+  setDoc,
+  getDoc
+} from 'firebase/firestore';
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -28,4 +38,13 @@ export function uploadImage(uid: string, image: File) {
   const imageRef = ref(storage, `eventImages/${uid}-${getRandomString(7)}`);
 
   return uploadBytes(imageRef, image);
+}
+
+export function createUser(uid: string, newUser: NewUser) {
+  return setDoc(doc(db, 'users', uid), newUser);
+}
+
+export async function getUser(uid: string) {
+  const docRef = doc(db, 'users', uid);
+  return await getDoc(docRef);
 }
