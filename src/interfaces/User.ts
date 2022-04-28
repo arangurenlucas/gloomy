@@ -5,7 +5,7 @@ export interface User {
   photoURL: string;
 }
 
-export interface newUser {
+export interface NewUser {
   email: string;
   displayName: string;
   photoURL: string;

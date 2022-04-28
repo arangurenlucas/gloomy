@@ -1,5 +1,5 @@
 import type { Event } from '../interfaces/Event';
-import type { newUser } from '../interfaces/User';
+import type { NewUser } from '../interfaces/User';
 import { getRandomString } from './utils';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from './config';
@@ -40,7 +40,7 @@ export function uploadImage(uid: string, image: File) {
   return uploadBytes(imageRef, image);
 }
 
-export function createUser(uid: string, newUser: newUser) {
+export function createUser(uid: string, newUser: NewUser) {
   return setDoc(doc(db, 'users', uid), newUser);
 }
 
