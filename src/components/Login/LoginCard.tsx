@@ -1,3 +1,4 @@
+import type { NewUser } from '../../interfaces/User';
 import './LoginCardStyles.css';
 import { useContext, useEffect, useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
@@ -10,6 +11,7 @@ import {
 } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import MyContext from '../../MyContext';
+import { createUser, getUser } from '../../Service/ServiceAPI';
 
 interface loginInputData {
   email: string;
@@ -41,7 +43,6 @@ function LoginCard() {
       .then((userCredential) => {
         setIsLogged(true);
         localStorage.setItem('uid', userCredential.user.uid);
-        navigate('/');
       })
       .catch((error) => {
         setAuthing(false);
@@ -50,6 +51,9 @@ function LoginCard() {
         console.log(error.message);
         console.log('====================================');
         seterrorMessage(error.message);
+      })
+      .finally(() => {
+        navigate('/');
       });
   };
 
@@ -57,15 +61,30 @@ function LoginCard() {
     setAuthing(true);
 
     signInWithPopup(auth, new GoogleAuthProvider())
-      .then((response) => {
-        setIsLogged(true);
-        localStorage.setItem('uid', response.user.uid);
-        navigate('/');
+      .then(async ({ user }) => {
+        localStorage.setItem('uid', user.uid);
+        const userExists = await (await getUser(user.uid)).exists();
+        if (!userExists) {
+          if (user.email && user.displayName && user.photoURL) {
+            const { email, displayName, photoURL } = user;
+            const newUser: NewUser = {
+              email,
+              displayName,
+              photoURL
+            };
+            createUser(user.uid, newUser);
+            return setIsLogged(true);
+          }
+        }
+        throw new Error("Can't get user data");
       })
       .catch((error) => {
         console.log(error);
         setAuthing(false);
         seterrorMessage(error.message);
+      })
+      .finally(() => {
+        navigate('/');
       });
   };
 
