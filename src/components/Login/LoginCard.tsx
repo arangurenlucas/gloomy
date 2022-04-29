@@ -28,15 +28,16 @@ function LoginCard() {
     password: ''
   });
 
-  const [errorMessage, seterrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
   const onEmailLoginPress = () => {
+    setErrorMessage('');
     if (loginData.email === '' || loginData.password === '') {
-      return seterrorMessage('Debe completar email y contraseña');
+      return setErrorMessage('Debe completar email y contraseña');
     } else if (!loginData.email.match(validRegex)) {
-      return seterrorMessage('El email es incorrecto');
+      return setErrorMessage('El email es incorrecto');
     }
     setAuthing(true);
     signInWithEmailAndPassword(auth, loginData.email, loginData.password)
@@ -45,12 +46,20 @@ function LoginCard() {
         localStorage.setItem('uid', userCredential.user.uid);
       })
       .catch((error) => {
-        setAuthing(false);
-        console.log('====================================');
         console.log(error.code);
-        console.log(error.message);
-        console.log('====================================');
-        seterrorMessage(error.message);
+
+        setAuthing(false);
+        switch (error.code) {
+          case 'auth/wrong-password':
+            setErrorMessage('La contraseña es incorrecta');
+            break;
+          case 'auth/user-not-found':
+            setErrorMessage('El email no está registrado');
+            break;
+
+          default:
+            break;
+        }
       })
       .finally(() => {
         navigate('/');
@@ -76,12 +85,12 @@ function LoginCard() {
             return setIsLogged(true);
           }
         }
-        throw new Error("Can't get user data");
+        setIsLogged(true);
       })
       .catch((error) => {
         console.log(error);
         setAuthing(false);
-        seterrorMessage(error.message);
+        setErrorMessage(error.message);
       })
       .finally(() => {
         navigate('/');
@@ -133,9 +142,15 @@ function LoginCard() {
         </button>
       </div>
 
-      <div className='CreateAccount'>
+      <div className="CreateAccount">
         <p>¿No tenés una cuenta?</p>
-        <a onClick={ () => { navigate( '/create-account' ) } } >Registrate</a>
+        <a
+          onClick={() => {
+            navigate('/create-account');
+          }}
+        >
+          Registrate
+        </a>
       </div>
     </div>
   );
