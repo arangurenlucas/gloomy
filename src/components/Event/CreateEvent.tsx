@@ -40,6 +40,9 @@ export default function CreateEvent(props: Eventprops) {
     setIsLoading(true);
     setMessage({ error: false, message: '' });
     try {
+      if (newEvent.eventName === '' && newEvent.description === '' && imageToUpload === null) {
+        throw new Error('Debe completar todos los campos');
+      }
       if (newEvent.eventName == '') throw new Error('Debe completar el nombre del evento');
       if (newEvent.eventDate == undefined) throw new Error('El evento debe tener una fecha');
       if (newEvent.eventCategory == '') throw new Error('El evento debe tener una categoria');
