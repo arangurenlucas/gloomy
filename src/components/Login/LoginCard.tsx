@@ -132,6 +132,11 @@ function LoginCard() {
           <FcGoogle className="Icons" /> Log In with Google
         </button>
       </div>
+
+      <div className='CreateAccount'>
+        <p>¿No tenés una cuenta?</p>
+        <a onClick={ () => { navigate( '/create-account' ) } } >Registrate</a>
+      </div>
     </div>
   );
 }
