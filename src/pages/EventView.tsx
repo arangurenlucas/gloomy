@@ -2,11 +2,17 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { toStringDate } from '../Service/utils';
 import '../components/Event/eventProperties.css';
 import type { Event } from '../interfaces/Event';
+import type { editEventType } from '../interfaces/eventType';
 import EditEvent from '../components/Event/EditEvent';
 import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
 import { useContext, useState } from 'react';
 import { deleteEvent } from '../Service/ServiceAPI';
 import MyContext from '../MyContext';
+
+function editEvent(setEditedEvent: Function, setEditClickedState: Function, event: Event, editClicked: boolean) {
+  setEditedEvent(event)
+  setEditClickedState(!editClicked)
+}
 
 function EventView() {
   const location = useLocation();
@@ -14,6 +20,14 @@ function EventView() {
   // const { setRefreshData} = useContext(MyContext);
   const state = location.state as Event;
   const { eventName, eventCategory, description, eventHost, eventDate, imageUrl, id } = state;
+  const [ editedEvent, setEditedEvent ] = useState<editEventType>({
+    id: id || '',
+    eventName: eventName,
+    eventDate: eventDate,
+    eventCategory: eventCategory,
+    imageUrl: imageUrl,
+    description: description,
+  });
   const [editClicked, setEditClickedState] = useState<boolean>();
 
   const deleteEventById = (eventId: string | undefined) => {
@@ -55,7 +69,7 @@ function EventView() {
         </div>
       </div>
       <div className="buttonContainer">
-        <button className="editButton" onClick={() => setEditClickedState(!editClicked)}>
+        <button className="editButton" onClick={() => editEvent(setEditedEvent, setEditClickedState, state, editClicked ? editClicked : false)}>
           <AiOutlineEdit className="editIcon" />
         </button>
         <button className="deleteButton" onClick={() => deleteEventById(id)}>
@@ -63,7 +77,7 @@ function EventView() {
         </button>
       </div>
       {editClicked ? (
-        <EditEvent eventInfo={state} setEditClickedState={setEditClickedState} />
+        <EditEvent eventInfo={editedEvent} setEditClickedState={setEditClickedState} />
       ) : null}
     </div>
   );

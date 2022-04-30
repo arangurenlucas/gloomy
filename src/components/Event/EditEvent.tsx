@@ -1,12 +1,13 @@
-import type { eventInfoType } from '../../interfaces/eventType';
+import type { editEventType } from '../../interfaces/eventType';
 import './editEvent.css';
 import './newEventScreen.css';
 import { useState } from 'react';
 import { Timestamp } from 'firebase/firestore';
 import DateTimePicker from 'react-datetime-picker';
+import { updateEvent } from '../../Service/ServiceAPI';
 
 type eventViewProps = {
-  eventInfo: eventInfoType;
+  eventInfo: editEventType;
   setEditClickedState: Function;
 };
 
@@ -17,16 +18,20 @@ type MsgError = {
   
 function EditEvent(props: eventViewProps) {
   const eventype: string[] = ['', 'Social', 'Deportivo', 'Ocio', 'Empresarial', 'Otros'];
-  const { eventName, eventCategory, description, eventDate } = props.eventInfo;
+  const { id, eventName, eventCategory, description, eventDate, imageUrl } = props.eventInfo;
   const [message, setMessage] = useState<MsgError>({ error: false, message: '' });
-  const [editedEvent, setEvent] = useState<eventInfoType>({
+  const [editedEvent, setEvent] = useState<editEventType>({
+    id: id,
     eventName: eventName,
-    description: description,
+    eventDate: eventDate,
     eventCategory: eventCategory,
-    eventDate: eventDate
+    imageUrl: imageUrl,
+    description: description,
   });
 
-  const saveEvent = async (event: eventInfoType) => {
+  const saveEvent = async (event: editEventType) => {
+    console.log('Editar');
+    
     if (event.eventName == '' && event.description == '' && event.eventCategory == '') {
       setMessage({ error: true, message: 'Debe completar la informacion solicitada' });
     } else if (event.eventName == '') {
@@ -37,10 +42,12 @@ function EditEvent(props: eventViewProps) {
       setMessage({ error: true, message: 'El evento debe tener una categoria' });
     } else if (event.description == '') {
       setMessage({ error: true, message: 'El evento debe tener una descripcion' });
+    } else if (event.imageUrl == '') {
+      setMessage({ error: true, message: 'El evento debe tener una imagen' });
     } else {
       try {
-        // await addEvent(event);
-        setMessage({ error: false, message: 'El evento se cargó correctamente' });
+        await updateEvent(event.id, event);
+        setMessage({ error: false, message: 'El evento se actualizó correctamente' });
         setTimeout(function () {
           props.setEditClickedState(false);
         }, 2000);
@@ -84,6 +91,17 @@ function EditEvent(props: eventViewProps) {
           </select>
         </div>
 
+        <div className="EventFileInput">
+          <p>Imagen del evento:</p>
+          <div className="FileInput">
+            <input className='ClaseAEliminar' type="text" value={editedEvent.imageUrl}
+              onChange={(e) => {
+                setEvent({ ...editedEvent, imageUrl: e.target.value });
+              }} />
+            <p>{editedEvent.imageUrl}</p>
+          </div>
+        </div>
+
         <div className="EventDescription">
           <textarea
             cols={1}
@@ -96,7 +114,7 @@ function EditEvent(props: eventViewProps) {
         </div>
 
         <div className="Buttons">
-          <button /*onClick={() => saveEvent(editedEvent)}*/> Guardar</button>
+          <button onClick={() => saveEvent(editedEvent)}> Guardar</button>
           <button onClick={() => props.setEditClickedState(false)}>Cancelar</button>
         </div>
 

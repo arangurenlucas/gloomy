@@ -1,4 +1,5 @@
 import type { Event } from '../interfaces/Event';
+import type { editEventType } from '../interfaces/eventType';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from './config';
 import {
@@ -7,6 +8,7 @@ import {
   getDocs,
   addDoc,
   deleteDoc,
+  updateDoc,
   doc
 } from 'firebase/firestore';
 
@@ -25,4 +27,18 @@ export function addEvent(newEvent: Event) {
 export function deleteEvent(eventId: string) {
   const eventToDelete = doc(collection(db, 'events'), eventId);
   return deleteDoc(eventToDelete);
+}
+
+// algo asi deberia ser la funcion creo
+export function updateEvent(eventId: string, eventUpdate: editEventType) {
+  const eventRef = doc(collection(db, 'events'), eventId);
+  const { eventName, description, eventDate, imageUrl, eventCategory } = eventUpdate;
+
+  return updateDoc(eventRef, {
+    eventName,
+    description,
+    eventDate,
+    eventCategory,
+    imageUrl
+  });
 }
