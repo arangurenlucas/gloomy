@@ -30,7 +30,6 @@ function EditEvent(props: eventViewProps) {
   });
 
   const saveEvent = async (event: editEventType) => {
-    console.log('Editar');
     
     if (event.eventName == '' && event.description == '' && event.eventCategory == '') {
       setMessage({ error: true, message: 'Debe completar la informacion solicitada' });
