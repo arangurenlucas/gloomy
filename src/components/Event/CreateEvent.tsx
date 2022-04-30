@@ -30,7 +30,7 @@ export default function CreateEvent(props: Eventprops) {
     eventName: '',
     description: '',
     eventHost: 'test',
-    eventCategory: '',
+    eventCategory: 'Other',
     imageUrl: '',
     eventDate: Timestamp.fromDate(new Date()),
     expired: false
@@ -38,27 +38,18 @@ export default function CreateEvent(props: Eventprops) {
 
   const onCreateEventSubmit = () => {
     setIsLoading(true);
-
-    if (
-      newEvent.eventName == '' &&
-      newEvent.description == '' &&
-      newEvent.eventCategory == '' &&
-      newEvent.imageUrl == null
-    ) {
-      setMessage({ error: true, message: 'Debe completar la informacion solicitada' }); // Hay que implementar switch case u otro tipo de manejo de condiciones acá
-    } else if (newEvent.eventName == '') {
-      return setMessage({ error: true, message: 'Debe completar el nombre del evento' });
-    } else if (newEvent.eventDate == undefined) {
-      return setMessage({ error: true, message: 'El evento debe tener una fecha' });
-    } else if (newEvent.eventCategory == '') {
-      return setMessage({ error: true, message: 'El evento debe tener una categoria' });
-    } else if (!imageToUpload) {
-      return setMessage({ error: true, message: 'El evento debe tener una imagen' });
-    } else if (newEvent.description == '') {
-      return setMessage({ error: true, message: 'El evento debe tener una descripcion' });
-    }
-    const uid = localStorage.getItem('uid');
+    setMessage({ error: false, message: '' });
     try {
+      if (newEvent.eventName === '' && newEvent.description === '' && imageToUpload === null) {
+        throw new Error('Debe completar todos los campos');
+      }
+      if (newEvent.eventName == '') throw new Error('Debe completar el nombre del evento');
+      if (newEvent.eventDate == undefined) throw new Error('El evento debe tener una fecha');
+      if (newEvent.eventCategory == '') throw new Error('El evento debe tener una categoria');
+      if (!imageToUpload) throw new Error('El evento debe tener una imagen');
+      if (newEvent.description == '') throw new Error('El evento debe tener una descripcion');
+
+      const uid = localStorage.getItem('uid');
       if (imageToUpload && uid) {
         uploadImage(uid, imageToUpload)
           .then(async (snapshot) => {
@@ -68,11 +59,15 @@ export default function CreateEvent(props: Eventprops) {
             props.setNewEventClickedState(false);
           })
           .catch((err) => {
+            setIsLoading(false);
+            console.log(err.code);
             console.log(err.message);
           });
       }
     } catch (error) {
-      console.log('Error al agregar evento');
+      setIsLoading(false);
+      setMessage({ error: true, message: error.message });
+      console.log(error);
     }
   };
 
@@ -126,7 +121,6 @@ export default function CreateEvent(props: Eventprops) {
               hidden
               value={newEvent.imageUrl}
               onChange={(e) => {
-                // handleFileToUpload(e)
                 setImageToUpload(e.target.files ? e.target.files[0] : null);
               }}
             />

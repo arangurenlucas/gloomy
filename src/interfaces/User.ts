@@ -10,3 +10,10 @@ export interface NewUser {
   displayName: string;
   photoURL: string;
 }
+
+export interface EmailAndPasswordUser {
+  displayName: string;
+  email: string;
+  password: string;
+  photoURL: string;
+}
