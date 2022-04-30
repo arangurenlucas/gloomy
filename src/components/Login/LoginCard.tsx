@@ -1,3 +1,4 @@
+import type { NewUser } from '../../interfaces/User';
 import './LoginCardStyles.css';
 import { useContext, useEffect, useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
@@ -10,6 +11,7 @@ import {
 } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import MyContext from '../../MyContext';
+import { createUser, getUser } from '../../Service/ServiceAPI';
 
 interface loginInputData {
   email: string;
@@ -26,30 +28,41 @@ function LoginCard() {
     password: ''
   });
 
-  const [errorMessage, seterrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
   const onEmailLoginPress = () => {
+    setErrorMessage('');
     if (loginData.email === '' || loginData.password === '') {
-      return seterrorMessage('Debe completar email y contraseña');
+      return setErrorMessage('Debe completar email y contraseña');
     } else if (!loginData.email.match(validRegex)) {
-      return seterrorMessage('El email es incorrecto');
+      return setErrorMessage('El email es incorrecto');
     }
     setAuthing(true);
     signInWithEmailAndPassword(auth, loginData.email, loginData.password)
       .then((userCredential) => {
         setIsLogged(true);
         localStorage.setItem('uid', userCredential.user.uid);
-        navigate('/');
       })
       .catch((error) => {
-        setAuthing(false);
-        console.log('====================================');
         console.log(error.code);
-        console.log(error.message);
-        console.log('====================================');
-        seterrorMessage(error.message);
+
+        setAuthing(false);
+        switch (error.code) {
+          case 'auth/wrong-password':
+            setErrorMessage('La contraseña es incorrecta');
+            break;
+          case 'auth/user-not-found':
+            setErrorMessage('El email no está registrado');
+            break;
+
+          default:
+            break;
+        }
+      })
+      .finally(() => {
+        navigate('/');
       });
   };
 
@@ -57,15 +70,30 @@ function LoginCard() {
     setAuthing(true);
 
     signInWithPopup(auth, new GoogleAuthProvider())
-      .then((response) => {
+      .then(async ({ user }) => {
+        localStorage.setItem('uid', user.uid);
+        const userExists = await (await getUser(user.uid)).exists();
+        if (!userExists) {
+          if (user.email && user.displayName && user.photoURL) {
+            const { email, displayName, photoURL } = user;
+            const newUser: NewUser = {
+              email,
+              displayName,
+              photoURL
+            };
+            createUser(user.uid, newUser);
+            return setIsLogged(true);
+          }
+        }
         setIsLogged(true);
-        localStorage.setItem('uid', response.user.uid);
-        navigate('/');
       })
       .catch((error) => {
         console.log(error);
         setAuthing(false);
-        seterrorMessage(error.message);
+        setErrorMessage(error.message);
+      })
+      .finally(() => {
+        navigate('/');
       });
   };
 
@@ -112,6 +140,17 @@ function LoginCard() {
         <button className="LoginButton" onClick={signInWithGoogle} disabled={authing}>
           <FcGoogle className="Icons" /> Log In with Google
         </button>
+      </div>
+
+      <div className="CreateAccount">
+        <p>¿No tenés una cuenta?</p>
+        <a
+          onClick={() => {
+            navigate('/create-account');
+          }}
+        >
+          Registrate
+        </a>
       </div>
     </div>
   );

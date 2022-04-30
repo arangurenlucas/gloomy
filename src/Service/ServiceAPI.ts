@@ -1,7 +1,9 @@
-import type { Event } from '../interfaces/Event';
-import type { editEventType } from '../interfaces/Event';
+import type { Event, editEventType } from '../interfaces/Event';
+import type { NewUser } from '../interfaces/User';
+import { getRandomString } from './utils';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from './config';
+import { ref, getStorage, uploadBytes } from 'firebase/storage';
 import {
   getFirestore,
   collection,
@@ -9,12 +11,16 @@ import {
   addDoc,
   deleteDoc,
   updateDoc,
-  doc
+  doc,
+  setDoc,
+  getDoc
 } from 'firebase/firestore';
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+//  Initialize Cloud Firestore and storage
 const db = getFirestore(app);
+const storage = getStorage(app);
 
 export function getEvents() {
   return getDocs(collection(db, 'events'));
@@ -29,6 +35,7 @@ export function deleteEvent(eventId: string) {
   return deleteDoc(eventToDelete);
 }
 
+
 export function updateEvent(eventId: string, eventUpdate: editEventType) {
   const eventRef = doc(collection(db, 'events'), eventId);
   const { eventName, description, eventDate, imageUrl, eventCategory } = eventUpdate;
@@ -40,4 +47,19 @@ export function updateEvent(eventId: string, eventUpdate: editEventType) {
     eventCategory,
     imageUrl
   });
+}
+
+export function uploadImage(uid: string, image: File) {
+  const imageRef = ref(storage, `eventImages/${uid}-${getRandomString(7)}`);
+
+  return uploadBytes(imageRef, image);
+}
+
+export function createUser(uid: string, newUser: NewUser) {
+  return setDoc(doc(db, 'users', uid), newUser);
+}
+
+export async function getUser(uid: string) {
+  const docRef = doc(db, 'users', uid);
+  return await getDoc(docRef);
 }

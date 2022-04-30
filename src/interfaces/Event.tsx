@@ -4,11 +4,11 @@ export interface Event {
   eventName: string;
   description: string;
   eventCategory: string;
-  eventHost: string; 
-  imageUrl: string; 
-  eventDate: Timestamp; 
+  eventHost: string;
+  imageUrl: string;
+  eventDate: Timestamp;
   expired: boolean;
-  id?: string; 
+  id?: string;
 }
 
 export interface eventInfoType {
@@ -26,6 +26,3 @@ export interface editEventType{
   imageUrl: string;
   description: string;
 }
-
-
-
