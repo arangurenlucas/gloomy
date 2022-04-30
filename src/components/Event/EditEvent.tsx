@@ -1,10 +1,12 @@
 import type { editEventType } from '../../interfaces/Event';
 import './editEvent.css';
 import './newEventScreen.css';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Timestamp } from 'firebase/firestore';
 import DateTimePicker from 'react-datetime-picker';
 import { updateEvent } from '../../Service/ServiceAPI';
+import MyContext from '../../MyContext';
+import { useNavigate } from 'react-router-dom';
 
 type eventViewProps = {
   eventInfo: editEventType;
@@ -17,6 +19,8 @@ type MsgError = {
 };
 
 function EditEvent(props: eventViewProps) {
+  const navigate = useNavigate();
+  const { setRefreshData } = useContext(MyContext);
   const eventype: string[] = ['', 'Social', 'Deportivo', 'Ocio', 'Empresarial', 'Otros'];
   const { id, eventName, eventCategory, description, eventDate, imageUrl } = props.eventInfo;
   const [message, setMessage] = useState<MsgError>({ error: false, message: '' });
@@ -43,9 +47,12 @@ function EditEvent(props: eventViewProps) {
       if (event.imageUrl == '') throw new Error('El evento debe tener una imagen');
       if (event.description == '') throw new Error('El evento debe tener una descripcion');
 
-      await updateEvent(event.id, event);
-      setMessage({ error: false, message: 'El evento se actualizó correctamente' });
-      props.setEditClickedState(false);
+      await updateEvent(event.id, event).then(() => {
+        setRefreshData(true);
+        setMessage({ error: false, message: 'El evento se actualizó correctamente' });
+        props.setEditClickedState(false);
+        navigate('/');
+      });
     } catch (error) {
       setIsLoading(false);
       if (error instanceof Error) setMessage({ error: true, message: error.message });

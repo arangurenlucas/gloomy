@@ -9,37 +9,43 @@ import { useContext, useState } from 'react';
 import { deleteEvent } from '../Service/ServiceAPI';
 import MyContext from '../MyContext';
 
-function editEvent(setEditedEvent: Function, setEditClickedState: Function, event: Event, editClicked: boolean) {
-  setEditedEvent(event)
-  setEditClickedState(!editClicked)
-}
-
 function EventView() {
   const location = useLocation();
   const navigate = useNavigate();
-  // const { setRefreshData} = useContext(MyContext);
+  const { setRefreshData } = useContext(MyContext);
   const state = location.state as Event;
   const { eventName, eventCategory, description, eventHost, eventDate, imageUrl, id } = state;
-  const [ editedEvent, setEditedEvent ] = useState<editEventType>({
+  const [editedEvent, setEditedEvent] = useState<editEventType>({
     id: id || '',
     eventName: eventName,
     eventDate: eventDate,
     eventCategory: eventCategory,
     imageUrl: imageUrl,
-    description: description,
+    description: description
   });
   const [editClicked, setEditClickedState] = useState<boolean>();
 
-  const deleteEventById = (eventId: string | undefined) => {    
+  const deleteEventById = (eventId: string | undefined) => {
     if (eventId) {
-      deleteEvent(eventId).then(() => {
-        // setRefreshData(true);
-        navigate('/');
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      deleteEvent(eventId)
+        .then(() => {
+          setRefreshData(true);
+          navigate('/');
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
+  };
+
+  const editEvent = (
+    setEditedEvent: Function,
+    setEditClickedState: Function,
+    event: Event,
+    editClicked: boolean
+  ) => {
+    setEditedEvent(event);
+    setEditClickedState(!editClicked);
   };
 
   return (
@@ -67,7 +73,12 @@ function EventView() {
         </div>
       </div>
       <div className="buttonContainer">
-        <button className="editButton" onClick={() => editEvent(setEditedEvent, setEditClickedState, state, editClicked ? editClicked : false)}>
+        <button
+          className="editButton"
+          onClick={() =>
+            editEvent(setEditedEvent, setEditClickedState, state, editClicked ? editClicked : false)
+          }
+        >
           <AiOutlineEdit className="editIcon" />
         </button>
         <button className="deleteButton" onClick={() => deleteEventById(id)}>

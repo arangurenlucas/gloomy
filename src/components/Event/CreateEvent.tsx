@@ -32,8 +32,7 @@ export default function CreateEvent(props: Eventprops) {
     eventHost: 'test',
     eventCategory: 'Other',
     imageUrl: '',
-    eventDate: Timestamp.fromDate(new Date()),
-    expired: false
+    eventDate: Timestamp.fromDate(new Date())
   });
 
   const onCreateEventSubmit = () => {

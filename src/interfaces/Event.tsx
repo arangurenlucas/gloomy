@@ -7,7 +7,6 @@ export interface Event {
   eventHost: string;
   imageUrl: string;
   eventDate: Timestamp;
-  expired: boolean;
   id?: string;
 }
 
@@ -18,8 +17,8 @@ export interface eventInfoType {
   eventDate: Timestamp;
 }
 
-export interface editEventType{
-  id: string,
+export interface editEventType {
+  id: string;
   eventName: string;
   eventDate: Timestamp;
   eventCategory: string;

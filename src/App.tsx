@@ -32,7 +32,6 @@ function App(): JSX.Element {
             eventHost,
             imageUrl,
             eventDate,
-            expired,
             id: doc.id
           };
         })
