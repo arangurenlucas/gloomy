@@ -11,7 +11,21 @@ export interface Event {
   id?: string; 
 }
 
+export interface eventInfoType {
+  eventName: string;
+  description: string;
+  eventCategory: string;
+  eventDate: Timestamp;
+}
 
+export interface editEventType{
+  id: string,
+  eventName: string;
+  eventDate: Timestamp;
+  eventCategory: string;
+  imageUrl: string;
+  description: string;
+}
 
 
 

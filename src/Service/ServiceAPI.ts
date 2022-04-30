@@ -1,5 +1,5 @@
 import type { Event } from '../interfaces/Event';
-import type { editEventType } from '../interfaces/eventType';
+import type { editEventType } from '../interfaces/Event';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from './config';
 import {

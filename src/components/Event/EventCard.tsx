@@ -2,7 +2,6 @@ import type { Event } from '../../interfaces/Event';
 import { useNavigate, NavigateFunction } from 'react-router-dom';
 import EventInfo from './EventInfo';
 import './event.css';
-import { useState } from 'react';
 
 type EventProps = {
   event: Event

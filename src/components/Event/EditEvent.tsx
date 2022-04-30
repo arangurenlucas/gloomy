@@ -1,4 +1,4 @@
-import type { editEventType } from '../../interfaces/eventType';
+import type { editEventType } from '../../interfaces/Event';
 import './editEvent.css';
 import './newEventScreen.css';
 import { useState } from 'react';

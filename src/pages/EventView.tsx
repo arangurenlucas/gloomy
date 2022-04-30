@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { toStringDate } from '../Service/utils';
 import '../components/Event/eventProperties.css';
 import type { Event } from '../interfaces/Event';
-import type { editEventType } from '../interfaces/eventType';
+import type { editEventType } from '../interfaces/Event';
 import EditEvent from '../components/Event/EditEvent';
 import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
 import { useContext, useState } from 'react';

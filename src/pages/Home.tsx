@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import MyContext from '../MyContext';
 import EventCard from '../components/Event/EventCard';
 import NewEvent from '../components/Event/NewEvent';

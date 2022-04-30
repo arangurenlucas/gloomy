@@ -1,4 +1,4 @@
-import type { eventInfoType } from '../../interfaces/eventType';
+import type { eventInfoType } from '../../interfaces/Event';
 import './eventInfo.css';
 import { toStringDate } from '../../Service/utils';
 
