@@ -1,4 +1,4 @@
-import type { Event } from '../interfaces/Event';
+import type { Event, editEventType } from '../interfaces/Event';
 import type { NewUser } from '../interfaces/User';
 import { getRandomString } from './utils';
 import { initializeApp } from 'firebase/app';
@@ -10,6 +10,7 @@ import {
   getDocs,
   addDoc,
   deleteDoc,
+  updateDoc,
   doc,
   setDoc,
   getDoc
@@ -32,6 +33,20 @@ export function addEvent(newEvent: Event) {
 export function deleteEvent(eventId: string) {
   const eventToDelete = doc(collection(db, 'events'), eventId);
   return deleteDoc(eventToDelete);
+}
+
+
+export function updateEvent(eventId: string, eventUpdate: editEventType) {
+  const eventRef = doc(collection(db, 'events'), eventId);
+  const { eventName, description, eventDate, imageUrl, eventCategory } = eventUpdate;
+
+  return updateDoc(eventRef, {
+    eventName,
+    description,
+    eventDate,
+    eventCategory,
+    imageUrl
+  });
 }
 
 export function uploadImage(uid: string, image: File) {

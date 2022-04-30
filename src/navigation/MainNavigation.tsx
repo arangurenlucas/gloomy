@@ -5,6 +5,7 @@ import CreateAccount from '../pages/CreateAccount';
 import AuthRoute from '../Service/AuthRoute';
 import Account from '../pages/Account';
 import Events from '../pages/Events';
+import EventView from '../pages/EventView';
 import Home from '../pages/Home';
 import MyContext from '../MyContext';
 
@@ -17,6 +18,7 @@ function MainNavigation() {
       <Route element={<AuthRoute />}>
         <Route path="/" element={<Home />} />
         <Route path="/events" element={<Events />} />
+        <Route path="/event" element={<EventView />} />
         <Route path="/account" element={<Account />} />
       </Route>
     </Routes>
