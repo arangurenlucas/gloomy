@@ -30,9 +30,7 @@ function EventView() {
   });
   const [editClicked, setEditClickedState] = useState<boolean>();
 
-  const deleteEventById = (eventId: string | undefined) => {
-    console.log(eventId);
-    
+  const deleteEventById = (eventId: string | undefined) => {    
     if (eventId) {
       deleteEvent(eventId).then(() => {
         // setRefreshData(true);
