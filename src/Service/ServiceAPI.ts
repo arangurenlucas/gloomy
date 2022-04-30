@@ -29,7 +29,6 @@ export function deleteEvent(eventId: string) {
   return deleteDoc(eventToDelete);
 }
 
-// algo asi deberia ser la funcion creo
 export function updateEvent(eventId: string, eventUpdate: editEventType) {
   const eventRef = doc(collection(db, 'events'), eventId);
   const { eventName, description, eventDate, imageUrl, eventCategory } = eventUpdate;
