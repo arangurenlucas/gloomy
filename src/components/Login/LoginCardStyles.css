@@ -110,3 +110,8 @@
   text-decoration: underline;
   cursor: pointer;
 }
+
+.gloomy-logo {
+  height: 30%;
+  margin-right: 5px;
+}

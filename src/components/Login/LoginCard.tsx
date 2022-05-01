@@ -12,6 +12,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import MyContext from '../../MyContext';
 import { createUser, getUser } from '../../Service/ServiceAPI';
+import Logo from '../../assets/gloomy-logo.png';
 
 interface loginInputData {
   email: string;
@@ -106,6 +107,7 @@ function LoginCard() {
   return (
     <div className="LoginMain">
       <div className="LoginTitle">
+        <img className='gloomy-logo' src={Logo} />
         <h1>Gloomy</h1>
       </div>
 

@@ -5,6 +5,7 @@ import MyContext from '../../MyContext';
 import { FaHome, FaRegCalendarAlt, FaUser } from 'react-icons/fa';
 import { BiLogOut } from 'react-icons/bi';
 import { getAuth, signOut } from 'firebase/auth';
+import Logo from '../../assets/gloomy-logo.png';
 
 const Sidebar = () => {
   const { isLogged, setIsLogged } = useContext(MyContext);
@@ -16,6 +17,7 @@ const Sidebar = () => {
         <div className="navBarMenuContainer">
           <div>
             <div className="title">
+              <img className="gloomy-logo" src={Logo} />
               <p>gloomy</p>
             </div>
             <nav>
