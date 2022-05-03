@@ -49,14 +49,11 @@ function App(): JSX.Element {
   useEffect(() => {
     const subscriber = auth.onAuthStateChanged(onAuthStateChanged);
     return () => subscriber(); // unsubscribe on unmount
-  }),
-    [auth];
+  }, [auth]);
 
   async function getUser() {
     return localStorage.getItem('uid');
   }
-
-  useEffect(() => {}, []);
 
   useEffect(() => {
     setRefreshData(false);
