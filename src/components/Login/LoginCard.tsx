@@ -11,7 +11,7 @@ import {
 } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import MyContext from '../../MyContext';
-import { createUser, getUser } from '../../Service/ServiceAPI';
+import { createUser, getUserData } from '../../Service/ServiceAPI';
 import Logo from '../../assets/gloomy-logo.png';
 
 interface loginInputData {
@@ -73,7 +73,7 @@ function LoginCard() {
     signInWithPopup(auth, new GoogleAuthProvider())
       .then(async ({ user }) => {
         localStorage.setItem('uid', user.uid);
-        const userExists = await (await getUser(user.uid)).exists();
+        const userExists = await (await getUserData(user.uid)).exists();
         if (!userExists) {
           if (user.email && user.displayName && user.photoURL) {
             const { email, displayName, photoURL } = user;
