@@ -1,0 +1,22 @@
+.sub-btn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #f55951;
+  font-size: 1.2rem;
+  color: #f2f2f2;
+
+  padding: 0.6rem;
+  border-radius: 0.6rem;
+  font-weight: bold;
+
+  border: 2px solid #f55951;
+  cursor: pointer;
+}
+
+.sub-icon {
+  color: #f2f2f2;
+  font-size: 1.5rem;
+}

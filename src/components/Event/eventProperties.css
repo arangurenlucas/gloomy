@@ -33,10 +33,30 @@
 
 .header {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  margin-bottom: 5px;
   align-items: center;
-  padding-bottom: 5px;
+  justify-content: space-between;
+}
+
+.sub-btn-container {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-text {
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-right {
+  display: flex;
+  flex: 1;
 }
 
 .header h2,
@@ -91,7 +111,7 @@ h3 {
   border-radius: 50%;
 }
 
-.buttonContainer{
+.buttonContainer {
   position: fixed;
   width: 100px;
   height: 100px;
