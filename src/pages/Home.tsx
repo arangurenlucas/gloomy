@@ -11,7 +11,7 @@ function Home() {
   useEffect(() => {
     if (events) {
       const filteredData = events.filter((event: Event) => {
-        return userData.uid === event.subscribers[0];
+        return event.subscribers.includes(userData.uid);
       });
       setShownData(filteredData);
     }
