@@ -27,7 +27,7 @@ const Sidebar = () => {
               </Link>
               <Link className="link" to={'/events'}>
                 <FaRegCalendarAlt className="icon" />
-                My Events
+                Events
               </Link>
               <Link className="link" to={'/account'}>
                 <FaUser className="icon" />
@@ -45,6 +45,7 @@ const Sidebar = () => {
             }}
           >
             <BiLogOut className="logOutIcon" />
+            Log out
           </button>
         </div>
       ) : null}

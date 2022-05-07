@@ -1,0 +1,22 @@
+.unsub-btn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #beb9b8;
+  font-size: 1.3rem;
+  color: #f55951;
+
+  padding: 0.6rem;
+  border-radius: 0.6rem;
+  font-weight: bold;
+
+  border: 2px solid #f55951;
+  cursor: pointer;
+}
+
+.unsub-icon {
+  color: #f55951;
+  font-size: 1.5rem;
+}

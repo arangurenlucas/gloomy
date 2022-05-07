@@ -4,14 +4,14 @@ import EventInfo from './EventInfo';
 import './event.css';
 
 type EventProps = {
-  event: Event
-}
+  event: Event;
+};
 
-function EventCard({event}: EventProps) {
-  const { eventName, eventCategory, description, eventDate, imageUrl  } = event
+function EventCard({ event }: EventProps) {
+  const { eventName, eventCategory, description, eventDate, imageUrl } = event;
   let navigate: NavigateFunction = useNavigate();
   return (
-    <div className="eventCardContainer" onClick={() => navigate('/event', {state: event})}>
+    <div className="eventCardContainer" onClick={() => navigate('/event', { state: event })}>
       <img src={imageUrl} />
       <EventInfo
         eventName={eventName}
