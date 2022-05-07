@@ -1,10 +1,11 @@
 import type { Event } from '../src/interfaces/Event';
+import type { User } from './interfaces/User';
 import { useEffect, useState } from 'react';
 import './App.css';
 import MainNavigation from '../src/navigation/MainNavigation';
 import MyContext from '../src/MyContext';
 import Sidebar from './components/Sidebar/Sidebar';
-import { getEvents } from './Service/ServiceAPI';
+import { getEvents, getUserData } from './Service/ServiceAPI';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from './Service/config';
 import { Auth, getAuth } from 'firebase/auth';
@@ -15,6 +16,7 @@ function App(): JSX.Element {
   const [isLogged, setIsLogged] = useState<boolean>(false);
   const [refreshData, setRefreshData] = useState<boolean>(false);
   const [events, setEvents] = useState<Event[]>([]);
+  const [userData, setUserData] = useState<User>();
   const [user, setUser] = useState<Auth>();
   const auth = getAuth();
 
@@ -23,15 +25,23 @@ function App(): JSX.Element {
       const data = await getEvents();
       setEvents(
         data.docs.map((doc) => {
-          const { eventName, description, eventCategory, eventHost, imageUrl, eventDate, expired } =
-            doc.data();
+          const {
+            eventName,
+            description,
+            eventCategory,
+            imageUrl,
+            eventDate,
+            subscribers,
+            hostUid
+          } = doc.data();
           return {
             eventName,
             description,
             eventCategory,
-            eventHost,
             imageUrl,
             eventDate,
+            subscribers,
+            hostUid,
             id: doc.id
           };
         })
@@ -61,7 +71,15 @@ function App(): JSX.Element {
     getUser()
       .then((uid) => {
         if (uid) {
+          getUserData(uid).then((user) => {
+            if (user.exists()) {
+              const { displayName, email, photoURL } = user.data();
+              setUserData({ displayName, email, photoURL, uid: user.id });
+            }
+          });
           setIsLogged(true);
+        } else {
+          throw new Error('No user logged');
         }
       })
       .catch((error) => {
@@ -81,7 +99,8 @@ function App(): JSX.Element {
         isLogged,
         setIsLogged,
         events,
-        setRefreshData
+        setRefreshData,
+        userData
       }}
     >
       <div className="App">
