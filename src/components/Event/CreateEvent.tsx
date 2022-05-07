@@ -22,17 +22,18 @@ type eventType = ['Social', 'Sports', 'Cultural', 'Business', 'Other'];
 
 export default function CreateEvent(props: Eventprops) {
   const eventype: eventType = ['Social', 'Sports', 'Cultural', 'Business', 'Other'];
-  const { setRefreshData } = useContext(MyContext);
+  const { setRefreshData, userData } = useContext(MyContext);
   const [message, setMessage] = useState<MsgError>({ error: false, message: '' });
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [imageToUpload, setImageToUpload] = useState<File | null>(null);
   const [newEvent, setNewEvent] = useState<Event>({
     eventName: '',
     description: '',
-    eventHost: 'test',
     eventCategory: 'Other',
     imageUrl: '',
-    eventDate: Timestamp.fromDate(new Date())
+    eventDate: Timestamp.fromDate(new Date()),
+    subscribers: [],
+    hostUid: userData.uid
   });
 
   const onCreateEventSubmit = () => {
