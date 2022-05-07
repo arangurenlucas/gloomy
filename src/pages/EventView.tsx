@@ -1,12 +1,13 @@
+import type { Event } from '../interfaces/Event';
+import type { editEventType } from '../interfaces/Event';
+import type { User } from '../interfaces/User';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toStringDate } from '../Service/utils';
 import '../components/Event/eventProperties.css';
-import type { Event } from '../interfaces/Event';
-import type { editEventType } from '../interfaces/Event';
 import EditEvent from '../components/Event/EditEvent';
 import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
-import { useContext, useState } from 'react';
-import { deleteEvent, updateSubscription } from '../Service/ServiceAPI';
+import { useContext, useEffect, useState } from 'react';
+import { deleteEvent, getUserData, updateSubscription } from '../Service/ServiceAPI';
 import MyContext from '../MyContext';
 import SubscribeButton from '../components/SubscribeButton/SubscribeButton';
 import UnsubscribeButton from '../components/UnsubscribeButton/UnsubscribeButton';
@@ -15,10 +16,12 @@ function EventView() {
   const location = useLocation();
   const navigate = useNavigate();
   const { setRefreshData, userData } = useContext(MyContext);
+  const [eventHost, setEventHost] = useState<User>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [editClicked, setEditClickedState] = useState<boolean>();
   const state = location.state as Event;
   const { eventName, eventCategory, description, eventDate, imageUrl, id, hostUid, subscribers } =
     state;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [editedEvent, setEditedEvent] = useState<editEventType>({
     id: id || '',
     eventName: eventName,
@@ -27,7 +30,6 @@ function EventView() {
     imageUrl: imageUrl,
     description: description
   });
-  const [editClicked, setEditClickedState] = useState<boolean>();
 
   const deleteEventById = (eventId: string | undefined) => {
     setIsLoading(true);
@@ -71,6 +73,19 @@ function EventView() {
     }
   };
 
+  useEffect(() => {
+    getUserData(hostUid)
+      .then((user) => {
+        if (user.exists()) {
+          const { displayName, email, photoURL } = user.data();
+          setEventHost({ displayName, email, photoURL, uid: user.id });
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  }, []);
+
   return (
     <div className="propertiesContainer">
       <div className="imagen">
@@ -108,8 +123,8 @@ function EventView() {
             <p>{toStringDate(eventDate)}</p>
           </div>
           <div className="host">
-            <div className="logo" />
-            <p>{hostUid}</p>
+            <img className="logo" src={eventHost?.photoURL} />
+            <p>{eventHost?.displayName}</p>
           </div>
         </div>
       </div>
