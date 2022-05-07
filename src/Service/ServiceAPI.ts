@@ -13,7 +13,9 @@ import {
   updateDoc,
   doc,
   setDoc,
-  getDoc
+  getDoc,
+  arrayUnion,
+  arrayRemove
 } from 'firebase/firestore';
 
 // Initialize Firebase
@@ -35,7 +37,6 @@ export function deleteEvent(eventId: string) {
   return deleteDoc(eventToDelete);
 }
 
-
 export function updateEvent(eventId: string, eventUpdate: editEventType) {
   const eventRef = doc(collection(db, 'events'), eventId);
   const { eventName, description, eventDate, imageUrl, eventCategory } = eventUpdate;
@@ -49,6 +50,18 @@ export function updateEvent(eventId: string, eventUpdate: editEventType) {
   });
 }
 
+export function updateSubscription(eventId: string, userId: string, subscription: boolean) {
+  const eventRef = doc(collection(db, 'events'), eventId);
+  if (subscription) {
+    return updateDoc(eventRef, {
+      subscribers: arrayUnion(userId)
+    });
+  }
+  return updateDoc(eventRef, {
+    subscribers: arrayRemove(userId)
+  });
+}
+
 export function uploadImage(uid: string, image: File) {
   const imageRef = ref(storage, `eventImages/${uid}-${getRandomString(7)}`);
 
@@ -59,7 +72,7 @@ export function createUser(uid: string, newUser: NewUser) {
   return setDoc(doc(db, 'users', uid), newUser);
 }
 
-export async function getUser(uid: string) {
+export function getUserData(uid: string) {
   const docRef = doc(db, 'users', uid);
-  return await getDoc(docRef);
+  return getDoc(docRef);
 }
