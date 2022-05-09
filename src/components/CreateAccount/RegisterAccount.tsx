@@ -37,6 +37,7 @@ export default function RegisterAccount() {
           };
           createUser(user.uid, newEmailUser);
           setIsLogged(true);
+          navigate('/');
         })
         .catch((error) => {
           console.log(error.message);
@@ -60,9 +61,6 @@ export default function RegisterAccount() {
             default:
               break;
           }
-        })
-        .finally(() => {
-          navigate('/');
         });
     } catch (error) {
       console.log('====================================');
