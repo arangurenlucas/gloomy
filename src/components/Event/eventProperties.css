@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@200&display=swap');
+
 .propertiesContainer {
   display: flex;
   flex-direction: column;
@@ -68,6 +70,19 @@ h3 {
   display: flex;
 }
 
+.subsContainer {
+  display: flex;
+}
+
+.centerCard{
+  display: grid;
+  grid-template-columns: 150px 150px;
+}
+
+.subsCard{
+  padding: 0px 5px 0px 5px;
+}
+
 .subs {
   display: flex;
   flex-direction: column;
@@ -79,6 +94,19 @@ h3 {
 
 .subs p {
   font-weight: 900;
+}
+
+.subsList {
+  font-family: 'Source Code Pro', monospace;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.underline {
+  border-bottom: 1px solid rgba(189, 189, 189, 0.556);
+  margin: 10px 0px 10px 0px;
+  width: 100%;
+  display: block;
 }
 
 .desc {
