@@ -28,6 +28,10 @@ export function getEvents() {
   return getDocs(collection(db, 'events'));
 }
 
+export function getUsers() {
+  return getDocs(collection(db, 'users'));
+}
+
 export function addEvent(newEvent: Event) {
   return addDoc(collection(db, 'events'), newEvent);
 }

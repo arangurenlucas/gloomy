@@ -1,5 +1,4 @@
-import type { Event } from '../interfaces/Event';
-import type { editEventType } from '../interfaces/Event';
+import type { Event, editEventType } from '../interfaces/Event';
 import type { User } from '../interfaces/User';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toStringDate } from '../Service/utils';
@@ -7,7 +6,7 @@ import '../components/Event/eventProperties.css';
 import EditEvent from '../components/Event/EditEvent';
 import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
 import { useContext, useEffect, useState } from 'react';
-import { deleteEvent, getUserData, updateSubscription } from '../Service/ServiceAPI';
+import { deleteEvent, getUserData, updateSubscription, getUsers } from '../Service/ServiceAPI';
 import MyContext from '../MyContext';
 import SubscribeButton from '../components/SubscribeButton/SubscribeButton';
 import UnsubscribeButton from '../components/UnsubscribeButton/UnsubscribeButton';
@@ -17,6 +16,7 @@ function EventView() {
   const navigate = useNavigate();
   const { setRefreshData, userData } = useContext(MyContext);
   const [eventHost, setEventHost] = useState<User>();
+  const [subs, setSubs] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [editClicked, setEditClickedState] = useState<boolean>();
   const state = location.state as Event;
@@ -30,6 +30,19 @@ function EventView() {
     imageUrl: imageUrl,
     description: description
   });
+
+  const getSubsList = async () => {
+    try {
+      const data = await getUsers();
+      const users = data.docs.map((doc) => {
+        const { email, displayName, photoURL } = doc.data();
+        return { email, displayName, photoURL, uid: doc.id };
+      });
+      setSubs(users.filter((user) => subscribers.includes(user.uid)));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const deleteEventById = (eventId: string | undefined) => {
     setIsLoading(true);
@@ -84,6 +97,7 @@ function EventView() {
       .catch((error) => {
         console.log(error.message);
       });
+    getSubsList();
   }, []);
 
   return (
@@ -117,6 +131,16 @@ function EventView() {
         <div className="body">
           <div className="subs">
             <p>Subs</p>
+            <div className="subsContainer">
+              <div className='centerCard'>
+                {subs.map((sub: User) => (
+                  <div key={sub.uid} className="subsCard">
+                    <p className="subsList">{sub.displayName}</p>
+                    <div className="underline" />
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
           <div className="desc">
             <p>{description}</p>
